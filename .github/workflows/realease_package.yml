@@ -15,7 +15,8 @@ env:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
+  id-token: write
 
 jobs:
   publish:
@@ -32,11 +33,15 @@ jobs:
           github-token: ${{ github.token }}
           run-id: ${{ github.event.workflow_run.id }}
 
-
-
       - name: List directory contents
         run: ls -la dist/
         shell: bash
+
+     - name: Install Cloudsmith CLI
+        uses: cloudsmith-io/cloudsmith-cli-action@v1.0.3
+        with:
+          oidc-namespace: ${{ env.CLOUDSMITH_NAMESPACE }}
+          oidc-service-slug: ${{ env.CLOUDSMITH_SERVICE_SLUG }}
 
       - name: Push package to Cloudsmith
         run: |
@@ -44,5 +49,5 @@ jobs:
             echo "No package found to upload"
             exit 1
           fi
-          cloudsmith push python ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_REPOSITORY }} dist/*.tar.gz --republish
+          cloudsmith push python ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_REPOSITORY }} dist/*.tar.gz --republish --tags ready-for-production
         shell: bash
