@@ -29,10 +29,8 @@ jobs:
           name: python-package
           path: dist
           repository: ${{ github.repository }}
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
-
-
 
       - name: List directory contents
         run: ls -la dist/
@@ -40,9 +38,12 @@ jobs:
 
       - name: Push package to Cloudsmith
         run: |
+          # Check if any .tar.gz files exist in the dist directory
           if ! ls dist/*.tar.gz 1> /dev/null 2>&1; then
             echo "No package found to upload"
             exit 1
           fi
+
+          # Push the package to Cloudsmith
           cloudsmith push python ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_REPOSITORY }} dist/*.tar.gz --republish
         shell: bash
