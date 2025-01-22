@@ -16,8 +16,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      artifact_name: python-package
     
     steps:
       - name: Checkout code
@@ -34,11 +32,16 @@ jobs:
           pip install build
 
       - name: Build package
+        run: |
+          python -m build
+
+      - name: Verify build output
+        run: |
+          echo "Contents of dist/ directory:"
+          ls -la dist/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: python-package
           path: dist/
-          if-no-files-found: error
-          retention-days: 5
