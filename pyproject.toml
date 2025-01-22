@@ -17,5 +17,11 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 
+[project.dependencies]
+requests = "^2.25"  # Example dependency
+
 [tool.hatch.build.targets.wheel]
 packages = ["cloudsmith_cs_interview_candidate"]
+
+[project.scripts]
+my_script = "cloudsmith_cs_interview_candidate.module:function"  # Example entry point
