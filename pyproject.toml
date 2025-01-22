@@ -18,4 +18,4 @@ classifiers = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["cloudsmith_cs_interview_candidate"]
+only_include = ["cloudsmith_cs_interview_candidate"]
