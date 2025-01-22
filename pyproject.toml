@@ -6,22 +6,28 @@ build-backend = "hatchling.build"
 name = "cloudsmith-cs-interview-candidate"
 version = "1.0.0"
 authors = [
-  { name = "Example Author", email = "author@example.com" },
+    { name = "Example Author", email = "author@example.com" },
 ]
 description = "A small example package"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
-  "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
 ]
 
-[project.dependencies]
-requests = "^2.25"  # Example dependency
+# Specify your project dependencies here
+dependencies = [
+    # Uncomment and add any dependencies your project requires
+    # "requests>=2.25.0",
+    # "numpy>=1.21.0",
+]
 
 [tool.hatch.build.targets.wheel]
+# Specify the packages to include in the wheel
 packages = ["cloudsmith_cs_interview_candidate"]
 
-[project.scripts]
-my_script = "cloudsmith_cs_interview_candidate.module:function"  # Example entry point
+# Optional: Add entry points if you have command-line scripts
+# [project.scripts]
+# my_script = "cloudsmith_cs_interview_candidate.module:function"  # Example entry point
