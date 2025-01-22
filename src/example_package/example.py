@@ -2,4 +2,4 @@
 
 def hello_world():
     """Print a greeting message."""
-    return "Hello from example package! checking workflow 2" 
+    return "Hello from example package! checking workflow 3" 
