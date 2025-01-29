@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches:
-      - main
+     - master
 
 env:
   CLOUDSMITH_NAMESPACE: ${{ vars.CLOUDSMITH_NAMESPACE }}
@@ -15,14 +15,20 @@ env:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
+  id-token: write
 
+  # # #
 jobs:
   publish:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
+      - name: Install Cloudsmith CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install cloudsmith-cli
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -37,6 +43,8 @@ jobs:
       - name: List directory contents
         run: ls -la dist/
         shell: bash
+        
+
 
       - name: Push package to Cloudsmith
         run: |
@@ -44,5 +52,5 @@ jobs:
             echo "No package found to upload"
             exit 1
           fi
-          cloudsmith push python ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_REPOSITORY }} dist/*.tar.gz --republish
+          cloudsmith push python ${{ env.CLOUDSMITH_NAMESPACE }}/${{ env.CLOUDSMITH_REPOSITORY }} dist/*.tar.gz --republish --tags ready-for-production
         shell: bash
